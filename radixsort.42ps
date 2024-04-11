@@ -1,0 +1,58 @@
+input 3 1 0 2
+
+true = 1
+
+while true
+      print A
+      print B
+      i = 0
+      while i < *A
+            last_digit = A[0]
+            rshift last_digit 0
+            mod last_digit 2
+            if last_digit
+               pb
+            elif 1
+                ra
+            endif
+            inc i
+      endwhile
+
+      i = 0
+      while *B
+            pa
+            inc i
+      endwhile
+      while i > 0
+            ra
+            dec i
+      endwhile
+
+      print A
+      print B
+      i = 0
+      while i < *A
+            last_digit = A[0]
+            rshift last_digit 1
+            mod last_digit 2
+            print last_digit
+            if last_digit
+                pb
+            elif 1
+                ra
+            endif
+            inc i
+      endwhile
+
+      i = 0
+      while *B
+            pa
+            inc i
+      endwhile
+      while i > 0
+            ra
+            dec i
+      endwhile
+
+      dec true
+endwhile
