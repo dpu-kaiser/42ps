@@ -7,10 +7,11 @@ import globals
 
 def eval_lines(lines):
     ast = generate_ast(lines)
-    print_ast(ast)
+    #print_ast(ast)
     eval_ast(ast)
     ast.children.clear()
     #print(variables)
+    print("\n")
     print("A:", stack_a)
     print("B:", stack_b)
     print(f"Executed {globals.pscmd_count} push_swap commands")
