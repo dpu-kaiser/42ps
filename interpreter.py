@@ -6,6 +6,7 @@ import globals
 if_false = False
 
 def exec_pscmd(cmd):
+        print(cmd, end=" ")
         if cmd == "pa":
             if len(stack_b) > 0:
                 stack_a.insert(0, stack_b.pop(0))
@@ -94,6 +95,10 @@ def exec_cmd(cmd):
                     print("A:", stack_a)
                 elif cmd.args[0] == "B":
                     print("B:", stack_b)
+                elif cmd.args[0] == "*A":
+                        print(len(stack_a))
+                elif cmd.args[0] == "*B":
+                        print(len(stack_b))
                 else:
                     print(cmd.args[0])
         elif cmd.cmd == "add":
@@ -108,8 +113,10 @@ def exec_cmd(cmd):
                 elif cmd.args[1].startswith("B["):
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] + get_item(
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
+                elif cmd.args[1] in variables:
+                        variables[cmd.args[0]] = int(variables[cmd.args[0]]) + int(variables[cmd.args[1]])
                 else:
-                    variables[cmd.args[0]] = int(variables[cmd.args[0]] + int(cmd.args[1]))
+                    variables[cmd.args[0]] = int(variables[cmd.args[0]]) + int(cmd.args[1])
         elif cmd.cmd == "sub":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
@@ -122,8 +129,10 @@ def exec_cmd(cmd):
                 elif cmd.args[1].startswith("B["):
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] - get_item(
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
+                elif cmd.args[1] in variables:
+                        variables[cmd.args[0]] = int(variables[cmd.args[0]]) - int(variables[cmd.args[1]])
                 else:
-                    variables[cmd.args[0]] = int(variables[cmd.args[0]] - int(cmd.args[1]))
+                    variables[cmd.args[0]] = int(variables[cmd.args[0]]) - int(cmd.args[1])
         elif cmd.cmd == "mul":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
@@ -136,8 +145,10 @@ def exec_cmd(cmd):
                 elif cmd.args[1].startswith("B["):
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] * get_item(
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
+                elif cmd.args[1] in variables:
+                        variables[cmd.args[0]] = int(variables[cmd.args[0]]) * int(variables[cmd.args[1]])
                 else:
-                    variables[cmd.args[0]] = int(variables[cmd.args[0]] * int(cmd.args[1]))
+                    variables[cmd.args[0]] = int(variables[cmd.args[0]]) * int(cmd.args[1])
         elif cmd.cmd == "div":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
@@ -150,8 +161,10 @@ def exec_cmd(cmd):
                 elif cmd.args[1].startswith("B["):
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] / get_item(
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
+                elif cmd.args[1] in variables:
+                        variables[cmd.args[0]] = int(variables[cmd.args[0]]) / int(variables[cmd.args[1]])
                 else:
-                    variables[cmd.args[0]] = int(variables[cmd.args[0]] / int(cmd.args[1]))
+                    variables[cmd.args[0]] = int(variables[cmd.args[0]]) / int(cmd.args[1])
         elif cmd.cmd == "mod":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
@@ -164,8 +177,10 @@ def exec_cmd(cmd):
                 elif cmd.args[1].startswith("B["):
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] % get_item(
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
+                elif cmd.args[1] in variables:
+                        variables[cmd.args[0]] = int(variables[cmd.args[0]]) % int(variables[cmd.args[1]])
                 else:
-                    variables[cmd.args[0]] = int(variables[cmd.args[0]] % int(cmd.args[1]))
+                    variables[cmd.args[0]] = int(variables[cmd.args[0]]) % int(cmd.args[1])
         elif cmd.cmd == "lshift":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
@@ -178,8 +193,10 @@ def exec_cmd(cmd):
                 elif cmd.args[1].startswith("B["):
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] << get_item(
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
+                elif cmd.args[1] in variables:
+                        variables[cmd.args[0]] = int(variables[cmd.args[0]]) << int(variables[cmd.args[1]])
                 else:
-                    variables[cmd.args[0]] = int(variables[cmd.args[0]] << int(cmd.args[1]))
+                    variables[cmd.args[0]] = int(variables[cmd.args[0]]) << int(cmd.args[1])
         elif cmd.cmd == "rshift":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
@@ -192,8 +209,10 @@ def exec_cmd(cmd):
                 elif cmd.args[1].startswith("B["):
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] >> get_item(
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
+                elif cmd.args[1] in variables:
+                        variables[cmd.args[0]] = int(variables[cmd.args[0]]) >> int(variables[cmd.args[1]])
                 else:
-                    variables[cmd.args[0]] = int(variables[cmd.args[0]] >> int(cmd.args[1]))
+                    variables[cmd.args[0]] = int(variables[cmd.args[0]]) >> int(cmd.args[1])
 
 
 def eval_ast(ast):
