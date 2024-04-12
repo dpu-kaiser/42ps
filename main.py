@@ -7,7 +7,7 @@ import globals
 
 def eval_lines(lines):
     ast = generate_ast(lines)
-    #print_ast(ast)
+    print_ast(ast)
     eval_ast(ast)
     ast.children.clear()
     #print(variables)

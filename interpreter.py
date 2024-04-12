@@ -6,41 +6,40 @@ import globals
 if_false = False
 
 def exec_pscmd(cmd):
-    match cmd:
-        case "pa":
+        if cmd == "pa":
             if len(stack_b) > 0:
                 stack_a.insert(0, stack_b.pop(0))
-        case "pb":
+        elif cmd == "pb":
             if len(stack_a) > 0:
                 stack_b.insert(0, stack_a.pop(0))
-        case "sa":
+        elif cmd == "sa":
             if len(stack_a) > 1:
                 stack_a[0], stack_a[1] = stack_a[1], stack_a[0]
-        case "sb":
+        elif cmd == "sb":
             if len(stack_b) > 1:
                 stack_b[0], stack_b[1] = stack_b[1], stack_b[0]
-        case "ss":
+        elif cmd == "ss":
             exec_pscmd("sa")
             exec_pscmd("sb")
-        case "ra":
+        elif cmd == "ra":
             if len(stack_a) > 0:
                 stack_a.append(stack_a.pop(0))
-        case "rb":
+        elif cmd == "rb":
             if len(stack_b) > 0:
                 stack_b.append(stack_b.pop(0))
-        case "rr":
+        elif cmd == "rr":
             exec_pscmd("ra")
             exec_pscmd("rb")
-        case "rra":
+        elif cmd == "rra":
             if len(stack_a) > 0:
                 stack_a.insert(0, stack_a.pop())
-        case "rrb":
+        elif cmd == "rrb":
             if len(stack_b) > 0:
                 stack_b.insert(0, stack_b.pop())
-        case "rrr":
+        elif cmd == "rrr":
             exec_pscmd("rra")
             exec_pscmd("rrb")
-    globals.pscmd_count += 1
+        globals.pscmd_count += 1
 
 
 def get_item(ast):
@@ -58,11 +57,10 @@ def get_item(ast):
 
 
 def exec_cmd(cmd):
-    if cmd.cmd in pscmds:
-        exec_pscmd(cmd.cmd)
-        return
-    match cmd.cmd:
-        case "var":
+        if cmd.cmd in pscmds:
+            exec_pscmd(cmd.cmd)
+            return
+        if cmd.cmd == "var":
             if len(cmd.args) == 1:
                 variables[cmd.args[0]] = None
             elif len(cmd.args) == 3 and cmd.args[1] == "=":
@@ -78,17 +76,17 @@ def exec_cmd(cmd):
                     variables[cmd.args[0]] = variables[cmd.args[2]]
                 else:
                     variables[cmd.args[0]] = int(cmd.args[2])
-        case "inc":
+        elif cmd.cmd == "inc":
             variables[cmd.args[0]] += 1
-        case "dec":
+        elif cmd.cmd == "dec":
             variables[cmd.args[0]] -= 1
-        case "input":
+        elif cmd.cmd == "input":
             for arg in cmd.args:
                 stack_a.append(int(arg))
-        case "clear":
+        elif cmd.cmd == "clear":
             stack_a.clear()
             stack_b.clear()
-        case "print":
+        elif cmd.cmd == "print":
             if len(cmd.args) == 1:
                 if cmd.args[0] in variables:
                     print(variables[cmd.args[0]])
@@ -98,7 +96,7 @@ def exec_cmd(cmd):
                     print("B:", stack_b)
                 else:
                     print(cmd.args[0])
-        case "add":
+        elif cmd.cmd == "add":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] + len(stack_a))
@@ -112,7 +110,7 @@ def exec_cmd(cmd):
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
                 else:
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] + int(cmd.args[1]))
-        case "sub":
+        elif cmd.cmd == "sub":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] - len(stack_a))
@@ -126,7 +124,7 @@ def exec_cmd(cmd):
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
                 else:
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] - int(cmd.args[1]))
-        case "mul":
+        elif cmd.cmd == "mul":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] * len(stack_a))
@@ -140,7 +138,7 @@ def exec_cmd(cmd):
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
                 else:
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] * int(cmd.args[1]))
-        case "div":
+        elif cmd.cmd == "div":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] / len(stack_a))
@@ -154,7 +152,7 @@ def exec_cmd(cmd):
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
                 else:
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] / int(cmd.args[1]))
-        case "mod":
+        elif cmd.cmd == "mod":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] % len(stack_a))
@@ -168,7 +166,7 @@ def exec_cmd(cmd):
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
                 else:
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] % int(cmd.args[1]))
-        case "lshift":
+        elif cmd.cmd == "lshift":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] << len(stack_a))
@@ -182,7 +180,7 @@ def exec_cmd(cmd):
                         ITEM(ITEM.STACK_B, parse_condition(cmd.args[2][2:-1]))))
                 else:
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] << int(cmd.args[1]))
-        case "rshift":
+        elif cmd.cmd == "rshift":
             if len(cmd.args) == 2:
                 if cmd.args[1] == "*A":
                     variables[cmd.args[0]] = int(variables[cmd.args[0]] >> len(stack_a))
@@ -244,30 +242,29 @@ def eval_ast(ast):
         exec_cmd(ast)
     elif type(ast) == CTRL:
         condition = parse_condition(ast.condition)
-        match ast.ctype:
-            case CTRL.IF:
+        if ast.ctype == CTRL.IF:
+            if eval_ast(condition):
+                for child in ast.children:
+                    eval_ast(child)
+            elif ast.alt:
+                if_false = True
+        elif ast.ctype == CTRL.WHILE:
+            while eval_ast(condition):
+                  for child in ast.children:
+                    eval_ast(child)
+        elif ast.ctype == CTRL.ELSE:
+            if if_false:
+                if_false = False
+                for child in ast.children:
+                    eval_ast(child)
+        elif ast.ctype == CTRL.ELIF:
+            if if_false:
+                if_false = False
                 if eval_ast(condition):
                     for child in ast.children:
                         eval_ast(child)
                 elif ast.alt:
                     if_false = True
-            case CTRL.WHILE:
-                while eval_ast(condition):
-                    for child in ast.children:
-                        eval_ast(child)
-            case CTRL.ELSE:
-                if if_false:
-                    if_false = False
-                    for child in ast.children:
-                        eval_ast(child)
-            case CTRL.ELIF:
-                if if_false:
-                    if_false = False
-                    if eval_ast(condition):
-                        for child in ast.children:
-                            eval_ast(child)
-                    elif ast.alt:
-                        if_false = True
     elif type(ast) == ITEM:
         return get_item(ast)
     elif type(ast) == LEN:
